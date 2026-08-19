@@ -138,12 +138,6 @@ type AuditFilter struct {
 	RequestID  string
 }
 
-func (f AuditFilter) BroadPage() AuditFilter {
-	broad := f
-	broad.RequestID = ""
-	return broad
-}
-
 type AuditPage struct {
 	Items []domain.AuditEvent
 	Total int

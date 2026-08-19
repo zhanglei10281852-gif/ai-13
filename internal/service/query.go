@@ -92,18 +92,8 @@ func (s *QueryService) Audit(ctx context.Context, filter repository.AuditFilter)
 	var page repository.AuditPage
 	err := s.store.Read(ctx, func(reader repository.Reader) error {
 		var err error
-		page, err = reader.ListAuditEvents(ctx, filter.BroadPage())
+		page, err = reader.ListAuditEvents(ctx, filter)
 		return err
 	})
-	if err != nil || filter.RequestID == "" {
-		return page, err
-	}
-	items := make([]domain.AuditEvent, 0, len(page.Items))
-	for _, event := range page.Items {
-		if event.RequestID == filter.RequestID {
-			items = append(items, event)
-		}
-	}
-	page.Items = items
-	return page, nil
+	return page, err
 }
